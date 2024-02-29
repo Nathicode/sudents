@@ -1,0 +1,158 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <title>Students Page</title>
+    <style>
+        .roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+* {
+    font-family:  "Roboto", sans-serif;;
+}
+.result {
+    width: 20rem;
+    margin-bottom: ;
+    padding: 3rem;
+    border-radius: 2rem;
+    display: none;
+}
+.result p {
+    padding: 10px;
+}
+    </style>
+</head>
+<body>
+    <nav class="d-flex align-items-center justify-content-center p-5 bg-dark text-bg-primary  ">
+        <h2>Students Page</h2>
+    </nav>
+    <div class="infos form-group d-flex flex-column align-items-center m-auto justify-content-center my-5">
+        <label for="class">Class</label>
+        <input type="number" class="form-control w-50" placeholder="class" id="class">
+        <label for="class">Number</label>
+        <input type="number" class="form-control w-50" placeholder="roll number" id="number">
+        <label for="class">Section</label>
+        <input type="text" class="form-control w-50" placeholder="section" id="section">
+        <button class="btn btn-primary my-2 " onclick="point()">Check</button>
+    </div>
+    <div class="result bg-dark m-auto mb-4  p-8 text-white text-center  " id="rank">
+        <section>
+            <p>Name</p>
+            <p id="name" class="btn btn-success "></p>
+        </section>
+        <section>
+            <p>Class</p>
+            <p id="room" class="btn btn-success "></p>
+        </section>
+    
+        <section>
+            <p>Amharic</p>
+            <p id="amh" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>English</p>
+            <p id="eng" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>Economics</p>
+            <p id="eco" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>Geography</p>
+            <p id="geo" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>Maths</p>
+            <p id="maths" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>IT</p>
+            <p id="it" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>History</p>
+            <p id="hist" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>Overall</p>
+            <p id="ovrall" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>Section</p>
+            <p id="sections" class="btn btn-success"></p>
+        </section>
+        <section>
+            <p>Roll no</p>
+            <p id="roll" class="btn btn-success"></p>
+        </section>
+        <section class="d-flex flex-column ">
+            <p>Rank</p>
+            <p id="ranks" class="btn btn-success">Click the button to reveal your answer</p>
+            <button class="btn btn-primary " onclick="rank()">Check Rank</button>
+        </section>
+    </div>
+    <script>
+             let average;
+             let avr = []
+            
+        const point = async() => {
+            document.querySelector('.result').style.display = 'block'
+          const data = await fetch('https://servernathi-1.onrender.com/');
+          const response = await data.json();
+          console.log(response)
+          const classs = Number(document.querySelector('#class').value);
+          const number = Number(document.querySelector('#number').value);
+          const section = document.querySelector('#section').value;
+         
+          console.log(typeof(classs))
+          response.forEach(response => {
+            avr.push(response.avg)
+          //return response.name;
+          if(response.classs == classs && response.rollno == number && response.sect == section ) {
+            console.log(response)
+            document.querySelector('#name').innerHTML = response.name;
+            document.querySelector('#room').innerHTML = response.classs;
+            document.querySelector('#amh').innerHTML = response.amh;
+            document.querySelector('#eng').innerHTML = response.en;
+            document.querySelector('#eco').innerHTML = response.eco;
+            document.querySelector('#geo').innerHTML = response.geo;
+            document.querySelector('#maths').innerHTML = response.maths;
+            document.querySelector('#hist').innerHTML = response.history;
+            document.querySelector('#it').innerHTML = response.it;
+            document.querySelector('#sections').innerHTML = response.sect;
+            document.querySelector('#roll').innerHTML = response.rollno;
+            document.querySelector('#ovrall').innerHTML = response.ovrall;
+
+            average = response.avg;
+          }
+          console.log(average)
+          console.log(avr)
+          });
+         // window.scrollTo(255, 255)
+        }
+        const rank = async() => {
+            console.log(avr)
+            avr.sort((a, b) => b - a);
+            avr.forEach((avr, index) => {
+           console.log(average)
+                console.log(avr, index + 1)
+                let rank;
+                if(avr === average) {
+                    console.log(avr, index + 1)
+                    rank == index;
+                    document.querySelector('#ranks').innerHTML = index + 1; 
+                }
+                console.log(rank)
+            })
+        }
+    </script>
+</body>
+</html>
